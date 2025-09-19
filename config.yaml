@@ -1,0 +1,17 @@
+preprocessing:
+  root_dir: datas/review.csv
+  source_dir: datas/final.csv
+
+training:
+  source_dir: datas/final.csv
+  output: model/model.pkl
+  y_test: datas/y_test.csv
+  x_test: datas/x_test.csv
+
+evaluate:
+  model_path: model/model.pkl
+  X_pred_path: datas/x_test.csv
+  y_pred_path: datas/y_test.csv
+  result_path: experiments/results.json
+  metrics_path: experiments/metrics.json
+  roc_plot_path: plots/accuracy_plot.json

@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    outs:
+    - path: datas/final.csv
+      hash: md5
+      md5: 2d38d7bec014e17c537d0818347a8619
+      size: 437229
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: datas/final.csv
+      hash: md5
+      md5: 2d38d7bec014e17c537d0818347a8619
+      size: 437229
+    - path: src/train.py
+      hash: md5
+      md5: e94c8d50c83d442e143a270c5b34efee
+      size: 1221
+    params:
+      params.yaml:
+        training.n_estimators: 200
+    outs:
+    - path: model/model.pkl
+      hash: md5
+      md5: 6ae5d9d48c78e0d9531f78e2bb22c39e
+      size: 6861521
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: datas/x_test.csv
+      hash: md5
+      md5: 9af3019678347ebaffce2d6e9a4674cf
+      size: 87885
+    - path: datas/y_test.csv
+      hash: md5
+      md5: c828c2c4c3bc198ae3da1b5ed878b0e7
+      size: 14894
+    - path: model/model.pkl
+      hash: md5
+      md5: 6ae5d9d48c78e0d9531f78e2bb22c39e
+      size: 6861521
+    - path: src/evaluate.py
+      hash: md5
+      md5: b98741a447d094c59cd1ee44fc550cef
+      size: 3240
+    outs:
+    - path: experiments/metrics.json
+      hash: md5
+      md5: f604c21e216b29078e153993717331fb
+      size: 100
+    - path: experiments/results.json
+      hash: md5
+      md5: 27239f1ca5dc73dc6677337a480c2836
+      size: 794
+    - path: plots/accuracy_plot.json
+      hash: md5
+      md5: 319d901d413fb5e76de5f345c6a3010c
+      size: 243845

@@ -1,0 +1,31 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    outs:
+      - datas/final.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - datas/final.csv
+      - src/train.py
+    outs:
+      - model/model.pkl
+    params:
+      - training.n_estimators
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - model/model.pkl
+      - datas/x_test.csv
+      - datas/y_test.csv
+    metrics:
+      - experiments/metrics.json
+    plots:
+      - experiments/results.json
+      - plots/accuracy_plot.json:
+          template: linear
+          x: fpr
+          y: tpr
